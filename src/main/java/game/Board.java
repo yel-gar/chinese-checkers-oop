@@ -11,6 +11,7 @@ public class Board {
     private Set<Cell> destsCache;
     private TreeMap<Integer, TreeMap<Integer, Cell>> cellPositionLookupMap;
     private Cell selectedCell;
+    private boolean deselectionLocked = false;
 
     public Board(int totalPlayers) {
         currentPlayerID = 0;
@@ -117,16 +118,19 @@ public class Board {
             cell.occupy(currentPlayerID);
             passedCells.add(selectedCell);
             var wasAdjacent = selectedCell.isAdjacent(cell);
+            if (!wasAdjacent) {
+                deselectionLocked = true;
+            }
             selectedCell = cell;
             checkValidMovesAfterMove(wasAdjacent);
         }
-        else if (cell.isSelected()) {
+        else if (cell.isSelected() && !deselectionLocked) {
             selectedCell.deselect();
             selectedCell = null;
             clearDestsCache();
         }
         // double condition for readability
-        else if (cell.isOccupied() && cell.isOccupiedBy(currentPlayerID)) {
+        else if (cell.isOccupied() && cell.isOccupiedBy(currentPlayerID) && !deselectionLocked) {
             cell.select(currentPlayerID);
             selectedCell = cell;
             checkValidMovesAfterSelection();
@@ -139,6 +143,7 @@ public class Board {
             currentPlayerID = 0;
         }
         passedCells.clear();
+        deselectionLocked = false;
     }
 
     private void checkValidMovesAfterMove(boolean wasAdjacent) {
