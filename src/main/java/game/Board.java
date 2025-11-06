@@ -120,13 +120,13 @@ public class Board {
             selectedCell = cell;
             checkValidMovesAfterMove(wasAdjacent);
         }
-        clearDestsCache();
-        if (cell.isSelected() || (selectedCell != null && (cell.isEmpty() || cell.isOccupied()))) {
+        else if (cell.isSelected()) {
             selectedCell.deselect();
             selectedCell = null;
+            clearDestsCache();
         }
         // double condition for readability
-        if (cell.isOccupied() && cell.isOccupiedBy(currentPlayerID)) {
+        else if (cell.isOccupied() && cell.isOccupiedBy(currentPlayerID)) {
             cell.select(currentPlayerID);
             selectedCell = cell;
             checkValidMovesAfterSelection();
@@ -150,6 +150,7 @@ public class Board {
     }
 
     private void checkValidMoves(boolean newTurn, boolean wasAdjacent) {
+        clearDestsCache();
         if (!newTurn && wasAdjacent) {
             switchTurn();
             selectedCell.deselect();
@@ -190,7 +191,10 @@ public class Board {
                 if (jumperCell == null || !jumperCell.isEmpty()) {
                     continue;
                 }
-                if (jumperCell.isEmpty() && !passedCells.contains(jumperCell)) {
+                if (jumperCell.isEmpty()) {
+                    if (passedCells.contains(jumperCell)) {
+                        continue;
+                    }
                     jumperCell.setDest();
                     destsCache.add(jumperCell);
                     validMoveFound = true;

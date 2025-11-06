@@ -27,6 +27,10 @@ public class Cell {
         return unitPlayerID;
     }
 
+    public int getOwnerID() {
+        return ownedByPlayerID;
+    }
+
     public boolean isOccupiedBy(int playerID) {
         return unitPlayerID == playerID;
     }

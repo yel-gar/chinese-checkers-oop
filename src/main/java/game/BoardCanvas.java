@@ -46,6 +46,10 @@ public class BoardCanvas extends Canvas {
                     y,
                     CELL_SIZE, CELL_SIZE
             );
+            if (cell.getOwnerID() >= 0) {
+                gc.setFill(PLAYER_COLORS[cell.getOwnerID()].deriveColor(0, 1, 1, 0.2));
+                gc.fillRect(x - 5, y - 5, CELL_SIZE + 10, CELL_SIZE + 10);
+            }
             if (cell.isOccupied()) {
                 gc.setFill(PLAYER_COLORS[cell.getUnitPlayerID()]);
                 gc.fillOval(x, y, CELL_SIZE, CELL_SIZE);
