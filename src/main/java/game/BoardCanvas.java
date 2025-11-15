@@ -1,4 +1,5 @@
 package game;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -17,9 +18,9 @@ public class BoardCanvas extends Canvas {
 
     private final static Color[] PLAYER_COLORS = {Color.GREEN, Color.BLUE, Color.YELLOW, Color.RED, Color.MAGENTA, Color.CYAN};
 
-    private Board board;
-    private LinkedList<Cell> cells;
-    private GraphicsContext gc;
+    private final Board board;
+    private final LinkedList<Cell> cells;
+    private final GraphicsContext gc;
 
     public BoardCanvas(Board board) {
         super(CANVAS_WIDTH, CANVAS_HEIGHT);

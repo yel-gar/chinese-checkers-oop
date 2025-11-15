@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import java.util.stream.Stream;
 
 public class StartPopup {
-    private MainController mainController;
+    private final MainController mainController;
     private Stage popupStage;
 
     public StartPopup(MainController controller) {
@@ -49,7 +49,7 @@ public class StartPopup {
         children.addAll(buttons);
         children.addAll(startButton);
 
-        startButton.setOnAction(e -> {
+        startButton.setOnAction(_ -> {
             int playerCount = 2;
             for (var b : buttons) {
                 if (b.isSelected()) {

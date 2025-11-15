@@ -2,13 +2,16 @@ package game;
 
 import errors.GameRuntimeException;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class Board {
-    private int totalPlayers;
+    private final int totalPlayers;
+    private final Set<Cell> passedCells;
+    private final Set<Cell> destsCache;
     private int currentPlayerID;  // start from 0
-    private Set<Cell> passedCells;
-    private Set<Cell> destsCache;
     private TreeMap<Integer, TreeMap<Integer, Cell>> cellPositionLookupMap;
     private Cell selectedCell;
     private boolean deselectionLocked = false;
@@ -123,8 +126,7 @@ public class Board {
             }
             selectedCell = cell;
             checkValidMovesAfterMove(wasAdjacent);
-        }
-        else if (cell.isSelected() && !deselectionLocked) {
+        } else if (cell.isSelected() && !deselectionLocked) {
             selectedCell.deselect();
             selectedCell = null;
             clearDestsCache();

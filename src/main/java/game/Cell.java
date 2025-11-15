@@ -3,8 +3,8 @@ package game;
 import errors.GameRuntimeException;
 
 public class Cell {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     private int ownedByPlayerID;  // if this is home area, ID of owner player, -1 if shared
     private int unitPlayerID;  // ID of a player who has unit, -1 if unoccupied
     private CellState state;
