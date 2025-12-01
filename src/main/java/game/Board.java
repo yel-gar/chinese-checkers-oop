@@ -1,11 +1,10 @@
 package game;
 
 import errors.GameRuntimeException;
+import json.JsonBoard;
+import json.JsonCell;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Board {
     private final int totalPlayers;
@@ -26,6 +25,44 @@ public class Board {
         generateCells(totalPlayers);
     }
 
+    public Board(JsonBoard j) {
+        currentPlayerID = j.currentPlayerID;
+        totalPlayers = j.totalPlayers;
+        cellPositionLookupMap = new TreeMap<>();
+        for (var x : j.cells.keySet()) {
+            var yMap = new TreeMap<Integer, Cell>();
+            cellPositionLookupMap.put(x, yMap);
+            for (var e : j.cells.get(x).entrySet()) {
+                yMap.put(e.getKey(), new Cell(e.getValue()));
+            }
+        }
+        if (j.selectedCellX != -1) {
+            selectedCell = getCell(j.selectedCellX, j.selectedCellY);
+        }
+
+        passedCells = new HashSet<>();
+        destsCache = new HashSet<>();
+    }
+
+    public JsonBoard serialize() {
+        Map<Integer, Map<Integer, JsonCell>> jCells = new TreeMap<>();
+        for (var x : cellPositionLookupMap.keySet()) {
+            var yMap = new TreeMap<Integer, JsonCell>();
+            jCells.put(x, yMap);
+            for (var e : cellPositionLookupMap.get(x).entrySet()) {
+                yMap.put(e.getKey(), e.getValue().serialize());
+            }
+        }
+        return new JsonBoard(
+                totalPlayers,
+                currentPlayerID,
+                turnNumber,
+                jCells,
+                selectedCell == null ? -1 : selectedCell.getX(),
+                selectedCell == null ? -1 : selectedCell.getY()
+        );
+    }
+
     public LinkedList<Cell> getAllCells() {
         var list = new LinkedList<Cell>();
         for (var eOuter : cellPositionLookupMap.entrySet()) {
@@ -35,6 +72,10 @@ public class Board {
         }
 
         return list;
+    }
+
+    public boolean isSaveable() {
+        return !deselectionLocked;
     }
 
     public int getTurnNumber() {

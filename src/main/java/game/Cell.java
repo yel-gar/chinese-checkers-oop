@@ -1,6 +1,7 @@
 package game;
 
 import errors.GameRuntimeException;
+import json.JsonCell;
 
 public class Cell {
     private final int x;
@@ -15,6 +16,24 @@ public class Cell {
         ownedByPlayerID = -1;
         unitPlayerID = -1;
         state = CellState.EMPTY;
+    }
+
+    public Cell(JsonCell j) {
+        this.x = j.x;
+        this.y = j.y;
+        ownedByPlayerID = j.ownedBy;
+        unitPlayerID = j.unitID;
+        state = CellState.getByVal(j.state);
+    }
+
+    public JsonCell serialize() {
+        return new JsonCell(
+                x,
+                y,
+                ownedByPlayerID,
+                unitPlayerID,
+                state.val
+        );
     }
 
     public void setInitialPlayer(int playerID) {
