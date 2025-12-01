@@ -66,6 +66,9 @@ public class BoardCanvas extends Canvas {
                 gc.fillOval(x + 5, y + 5, CELL_SIZE - 10, CELL_SIZE - 10);
             }
         }
+
+        gc.setStroke(Color.BLACK);
+        gc.strokeText(String.format("Ходов: %d", board.getTurnNumber()), 10, CANVAS_HEIGHT - 10);
     }
 
     private void mouseClickHandler(MouseEvent e) {

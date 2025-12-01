@@ -12,6 +12,7 @@ public class Board {
     private final Set<Cell> passedCells;
     private final Set<Cell> destsCache;
     private int currentPlayerID;  // start from 0
+    private int turnNumber = 0;
     private TreeMap<Integer, TreeMap<Integer, Cell>> cellPositionLookupMap;
     private Cell selectedCell;
     private boolean deselectionLocked = false;
@@ -34,6 +35,10 @@ public class Board {
         }
 
         return list;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
     }
 
     private void generateCells(int totalPlayers) {
@@ -141,6 +146,7 @@ public class Board {
 
     private void switchTurn() {
         currentPlayerID++;
+        turnNumber++;
         if (currentPlayerID >= totalPlayers) {
             currentPlayerID = 0;
         }
