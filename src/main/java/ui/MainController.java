@@ -1,22 +1,21 @@
 package ui;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import errors.GameRuntimeException;
 import game.Board;
 import game.BoardCanvas;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Popup;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import json.JsonBoard;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MainController {
     private final static Gson GSON = new Gson();
