@@ -18,9 +18,9 @@ public class Cell {
         state = CellState.EMPTY;
     }
 
-    public Cell(JsonCell j) {
-        this.x = j.x;
-        this.y = j.y;
+    public Cell(JsonCell j, int x, int y) {
+        this.x = x;
+        this.y = y;
         ownedByPlayerID = j.ownedBy;
         unitPlayerID = j.unitID;
         state = CellState.getByVal(j.state);
@@ -28,8 +28,6 @@ public class Cell {
 
     public JsonCell serialize() {
         return new JsonCell(
-                x,
-                y,
                 ownedByPlayerID,
                 unitPlayerID,
                 state.val

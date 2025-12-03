@@ -28,12 +28,13 @@ public class Board {
     public Board(JsonBoard j) {
         currentPlayerID = j.currentPlayerID;
         totalPlayers = j.totalPlayers;
+        turnNumber = j.turnNumber;
         cellPositionLookupMap = new TreeMap<>();
         for (var x : j.cells.keySet()) {
             var yMap = new TreeMap<Integer, Cell>();
             cellPositionLookupMap.put(x, yMap);
             for (var e : j.cells.get(x).entrySet()) {
-                yMap.put(e.getKey(), new Cell(e.getValue()));
+                yMap.put(e.getKey(), new Cell(e.getValue(), x, e.getKey()));
             }
         }
         if (j.selectedCellX != -1) {
